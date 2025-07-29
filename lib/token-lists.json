@@ -1,6 +1,6 @@
 {
-  "https://flashnet.xyz/api/tokenlist": {
-    "name": "Flashnet Token List",
-    "homepage": "https://flashnet.xyz"
-  }
+	"https://flashnet.xyz/api/tokenlist": {
+		"name": "Flashnet Token List",
+		"homepage": "https://flashnet.xyz"
+	}
 }
