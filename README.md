@@ -47,14 +47,15 @@ Each file submitted must be a valid JSON document that conforms to the specifica
 
 ### `Token` object
 
-| Key        | Type     | Required | Description                                           |
-| ---------- | -------- | -------- | ----------------------------------------------------- |
-| `address`  | string   | ✔︎       | BTKN asset address (case-insensitive).                |
-| `name`     | string   | ✔︎       | Token name.                                           |
-| `symbol`   | string   | ✔︎       | Ticker / short symbol.                                |
-| `decimals` | integer  | ✔︎       | Number of decimal places.                             |
-| `logoURI`  | string   | –        | URI/IPFS hash for a token logo.                       |
-| `tags`     | string[] | –        | Array of tag IDs defined in the parent list’s `tags`. |
+| Key          | Type     | Required | Description                                           |
+| ------------ | -------- | -------- | ----------------------------------------------------- |
+| `identifier` | string   | ✔︎       | BTKN asset identifier hex-string.                     |
+| `address`    | string   | ✔︎       | BTKN asset address (case-insensitive).                |
+| `name`       | string   | ✔︎       | Token name.                                           |
+| `symbol`     | string   | ✔︎       | Ticker / short symbol.                                |
+| `decimals`   | integer  | ✔︎       | Number of decimal places.                             |
+| `logoURI`    | string   | –        | URI/IPFS hash for a token logo.                       |
+| `tags`       | string[] | –        | Array of tag IDs defined in the parent list’s `tags`. |
 
 ### Example
 
@@ -73,6 +74,7 @@ Each file submitted must be a valid JSON document that conforms to the specifica
   },
   "tokens": [
     {
+      "identifier": "0000000000000000000000000000000000000000000000000000000000000000",
       "address": "btkn10000000000000000000000000000000000000000000000000000000000",
       "name": "USD Bitcoin",
       "symbol": "USDB",
