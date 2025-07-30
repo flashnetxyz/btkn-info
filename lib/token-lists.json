@@ -2,5 +2,9 @@
 	"https://flashnet.xyz/api/tokenlist": {
 		"name": "Flashnet Token List",
 		"homepage": "https://flashnet.xyz"
+	},
+	"https://raw.githubusercontent.com/jaca8602/skayn-ai/main/skayn-token-list.json": {
+		"name": "Skayn Token List",
+		"homepage": "https://x.com/skayn_ai"
 	}
 }
