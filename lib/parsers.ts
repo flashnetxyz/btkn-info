@@ -9,6 +9,7 @@ export function isAddress(address: string): address is Address {
 const TokenSchema = z.object({
 	name: z.string(),
 	symbol: z.string(),
+	identifier: z.string(),
 	address: z.custom<Address>().refine(isAddress),
 	decimals: z.number(),
 	tags: z.array(z.string()).optional(),

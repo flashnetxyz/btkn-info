@@ -1,10 +1,14 @@
 {
-	"https://flashnet.xyz/api/tokenlist": {
-		"name": "Flashnet Token List",
-		"homepage": "https://flashnet.xyz"
-	},
-	"https://raw.githubusercontent.com/jaca8602/skayn-ai/main/skayn-token-list.json": {
-		"name": "Skayn Token List",
-		"homepage": "https://x.com/skayn_ai"
-	}
+   "https://flashnet.xyz/api/tokenlist":{
+      "name":"Flashnet Token List",
+      "homepage":"https://flashnet.xyz"
+   },
+   "https://deezy.io/btkn-tokens.json":{
+      "name":"Deezy Token List",
+      "homepage":"https://deezy.io"
+   },
+   "https://raw.githubusercontent.com/jaca8602/skayn-ai/main/skayn-token-list.json":{
+      "name":"Skayn Token List",
+      "homepage":"https://x.com/skayn_ai"
+   }
 }
