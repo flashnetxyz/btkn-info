@@ -2,5 +2,9 @@
 	"https://flashnet.xyz/api/tokenlist": {
 		"name": "Flashnet Token List",
 		"homepage": "https://flashnet.xyz"
+	},
+        "https://deezy.io/btkn-tokens.json": {
+		"name": "Deezy Token List",
+		"homepage": "https://deezy.io"
 	}
 }
