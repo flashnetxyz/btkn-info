@@ -1,109 +1,109 @@
 {
-	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"$id": "https://github.com/flashnetxyz/btkn-info/schema.json",
-	"title": "Token List",
-	"description": "A list of tokens",
-	"type": "object",
-	"properties": {
-		"name": {
-			"type": "string",
-			"description": "The name of the token list"
-		},
-		"timestamp": {
-			"type": "string",
-			"description": "When the token list was last updated",
-			"format": "date-time"
-		},
-		"version": {
-			"type": "object",
-			"properties": {
-				"major": {
-					"type": "number"
-				},
-				"minor": {
-					"type": "number"
-				},
-				"patch": {
-					"type": "number"
-				}
-			},
-			"required": ["major", "minor", "patch"]
-		},
-		"logoURI": {
-			"type": "string",
-			"description": "The URL of the token list logo",
-			"format": "uri-template"
-		},
-		"keywords": {
-			"type": "array",
-			"items": {
-				"type": "string"
-			},
-			"uniqueItems": true
-		},
-		"tags": {
-			"type": "object",
-			"patternProperties": {
-				"^.*$": {
-					"type": "object",
-					"properties": {
-						"name": {
-							"type": "string"
-						},
-						"description": {
-							"type": "string"
-						}
-					}
-				}
-			}
-		},
-		"tokens": {
-			"type": "array",
-			"items": {
-				"type": "object",
-				"properties": {
-					"identifier": {
-						"type": "string",
-						"description": "The identifier of the token",
-						"minLength": 10
-					},
-					"address": {
-						"type": "string",
-						"description": "The address of the token",
-						"minLength": 10
-					},
-					"name": {
-						"type": "string",
-						"description": "The name of the token"
-					},
-					"symbol": {
-						"type": "string",
-						"description": "The symbol of the token",
-						"minLength": 3,
-						"maxLength": 8
-					},
-					"decimals": {
-						"type": "number",
-						"description": "The number of decimals the token uses",
-						"exclusiveMinimum": 0,
-						"exclusiveMaximum": 32
-					},
-					"logoURI": {
-						"type": "string",
-						"description": "The URL of the token logo",
-						"format": "uri-template"
-					},
-					"tags": {
-						"type": "array",
-						"items": {
-							"type": "string"
-						}
-					}
-				},
-				"uniqueItems": true,
-				"required": ["identifier", "name", "symbol", "decimals"]
-			}
-		}
-	},
-	"required": ["name", "timestamp", "version", "tokens"]
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/flashnetxyz/btkn-info/schema.json",
+  "title": "Token List",
+  "description": "A list of tokens",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the token list"
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "When the token list was last updated",
+      "format": "date-time"
+    },
+    "version": {
+      "type": "object",
+      "properties": {
+        "major": {
+          "type": "number"
+        },
+        "minor": {
+          "type": "number"
+        },
+        "patch": {
+          "type": "number"
+        }
+      },
+      "required": ["major", "minor", "patch"]
+    },
+    "logoURI": {
+      "type": "string",
+      "description": "The URL of the token list logo",
+      "format": "uri-template"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "tags": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "tokens": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "description": "The identifier of the token",
+            "minLength": 10
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the token",
+            "minLength": 10
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the token"
+          },
+          "symbol": {
+            "type": "string",
+            "description": "The symbol of the token",
+            "minLength": 3,
+            "maxLength": 8
+          },
+          "decimals": {
+            "type": "number",
+            "description": "The number of decimals the token uses",
+            "exclusiveMinimum": 0,
+            "exclusiveMaximum": 32
+          },
+          "logoURI": {
+            "type": "string",
+            "description": "The URL of the token logo",
+            "format": "uri-template"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "uniqueItems": true,
+        "required": ["address", "name", "symbol", "decimals"]
+      }
+    }
+  },
+  "required": ["name", "timestamp", "version", "tokens"]
 }

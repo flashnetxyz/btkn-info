@@ -49,7 +49,7 @@ Each file submitted must be a valid JSON document that conforms to the specifica
 
 | Key          | Type     | Required | Description                                           |
 | ------------ | -------- | -------- | ----------------------------------------------------- |
-| `identifier` | string   | ✔︎       | BTKN asset identifier hex-string.                     |
+| `identifier` | string   | –        | BTKN asset identifier hex-string.                     |
 | `address`    | string   | ✔︎       | BTKN asset address (case-insensitive).                |
 | `name`       | string   | ✔︎       | Token name.                                           |
 | `symbol`     | string   | ✔︎       | Ticker / short symbol.                                |

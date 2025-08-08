@@ -1,0 +1,58 @@
+name: Validate Token Lists
+
+on:
+  pull_request:
+    paths:
+      - 'lib/token-lists.json'
+      - 'schema.json'
+      - 'scripts/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Determine base SHA
+        id: base
+        run: echo "sha=${{ github.event.pull_request.base.sha }}" >> $GITHUB_OUTPUT
+
+      - name: Compute added URLs
+        id: compute
+        run: |
+          BASE_SHA=${{ steps.base.outputs.sha }} bun scripts/compute-added-urls.ts > added.txt
+          ADDED=$(cat added.txt)
+          echo "added_urls=$ADDED" >> $GITHUB_OUTPUT
+
+      - name: Detect schema/scripts changes
+        id: changed
+        run: |
+          git fetch --no-tags --depth=1 origin ${{ steps.base.outputs.sha }}
+          CHANGED=$(git diff --name-only ${{ steps.base.outputs.sha }}...HEAD)
+          echo "$CHANGED" > changed.txt
+          if grep -E '^schema.json$|^scripts/' changed.txt > /dev/null; then
+            echo "critical_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "critical_changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate added token lists
+        if: steps.compute.outputs.added_urls != ''
+        run: bun scripts/validate-tokenlists.ts --only=${{ steps.compute.outputs.added_urls }}
+
+      - name: If schema/scripts changed with no new URLs, validate all
+        if: steps.compute.outputs.added_urls == '' && steps.changed.outputs.critical_changed == 'true'
+        run: bun scripts/validate-tokenlists.ts
+
+
