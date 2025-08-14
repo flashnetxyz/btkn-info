@@ -11,6 +11,10 @@
     "name": "Sparksat Token List",
     "homepage": "https://sparksat.app"
   },
+  "https://www.fspk.xyz/fspks.json": {
+    "name": "Sparksat Token List",
+    "homepage": "https://www.fspk.xyz"
+  },
   "https://gist.githubusercontent.com/loapixel/f6256d322997d241683365e20ab7a1d4/raw/097bc00b121f2c62a142d1e730f636e4d9333650/Satoshi.json": {
     "name": "Satoshi Token List"
   }
