@@ -11,8 +11,8 @@
     "name": "Sparksat Token List",
     "homepage": "https://sparksat.app"
   },
-   "https://www.fspk.xyz/fspks.json": {
-    "name": "Sparksat Token List",
+  "https://www.fspk.xyz/fspks.json": {
+    "name": "Fspks Token List",
     "homepage": "https://www.fspk.xyz"
   }
 }
