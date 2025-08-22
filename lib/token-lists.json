@@ -14,5 +14,9 @@
   "https://www.fspk.xyz/fspks.json": {
     "name": "Fspks Token List",
     "homepage": "https://www.fspk.xyz"
+  },
+    "https://spksat.xyz/sat.json": {
+    "name": "Satoshi Token List",
+    "homepage": "https://spksat.xyz"
   }
 }
