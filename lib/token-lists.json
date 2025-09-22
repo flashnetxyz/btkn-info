@@ -10,5 +10,9 @@
   "https://sparksat.app/sparksat.json": {
     "name": "Sparksat Token List",
     "homepage": "https://sparksat.app"
+  },
+  "https://spkst.fun/spkst.json": {
+    "name": "Spark Stone Token List",
+    "homepage": "https://spkst.fun"
   }
 }
