@@ -165,30 +165,6 @@ async function fetchImage(
 	}
 }
 
-// Generate a placeholder image with coins icon
-function generatePlaceholderImage(): { data: Buffer; contentType: string } {
-	// Create an SVG placeholder with the proper Lucide Coins icon
-	const svg = `
-    <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-      <!-- Light gray background circle -->
-      <circle cx="64" cy="64" r="64" fill="#f3f4f6"/>
-      
-      <!-- Coins icon from Lucide (scaled and centered) -->
-      <g transform="translate(32, 32) scale(2.67)">
-        <circle cx="8" cy="8" r="6" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M18.09 10.37A6 6 0 1 1 10.34 18" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M7 6h1v4" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="m16.71 13.88.7.71-2.82 2.82" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </g>
-    </svg>
-  `;
-
-	return {
-		data: Buffer.from(svg.trim()),
-		contentType: "image/svg+xml",
-	};
-}
-
 export async function GET(
 	_request: Request,
 	{ params }: { params: Promise<{ identifier: string[] }> },
@@ -206,10 +182,9 @@ export async function GET(
 
 	if (!identifier) {
 		// Return a 400 error as an image
-		return new NextResponse(generatePlaceholderImage().data, {
-			status: 400,
+		return new NextResponse(null, {
+			status: 404,
 			headers: {
-				"Content-Type": "image/svg+xml",
 				"Cache-Control": "public, max-age=60",
 				"Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -223,12 +198,9 @@ export async function GET(
 		const imageUrl = await findTokenImageUrl(identifier);
 
 		if (!imageUrl) {
-			// Return a placeholder image for not found
-			const placeholder = generatePlaceholderImage();
-			return new NextResponse(placeholder.data, {
+			return new NextResponse(null, {
 				status: 404,
 				headers: {
-					"Content-Type": placeholder.contentType,
 					"Cache-Control": "public, max-age=300", // Cache 404s for 5 minutes
 					"Access-Control-Allow-Origin": "*",
 					"Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -242,11 +214,9 @@ export async function GET(
 
 		if (!imageData) {
 			// If we found the URL but couldn't fetch the image, return placeholder
-			const placeholder = generatePlaceholderImage();
-			return new NextResponse(placeholder.data, {
+			return new NextResponse(null, {
 				status: 502,
 				headers: {
-					"Content-Type": placeholder.contentType,
 					"Cache-Control": "public, max-age=60", // Short cache for errors
 					"Access-Control-Allow-Origin": "*",
 					"Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -271,11 +241,9 @@ export async function GET(
 		console.error("Error serving token image:", error);
 
 		// Return error as placeholder image
-		const placeholder = generatePlaceholderImage();
-		return new NextResponse(placeholder.data, {
+		return new NextResponse(null, {
 			status: 500,
 			headers: {
-				"Content-Type": placeholder.contentType,
 				"Cache-Control": "public, max-age=60",
 				"Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Methods": "GET, OPTIONS",
