@@ -9,7 +9,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import Ajv2020, { DefinedError } from "ajv/dist/2020";
+import Ajv2020, { type DefinedError } from "ajv/dist/2020";
 import addFormats from "ajv-formats";
 
 type Token = {
