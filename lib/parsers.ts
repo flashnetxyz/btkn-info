@@ -10,7 +10,7 @@ const TokenSchema = z.object({
   name: z.string(),
   symbol: z.string(),
   identifier: z.string().optional(),
-  address: z.custom<Address>().refine(isAddress),
+  address: z.custom<Address>().refine(isAddress).optional(),
   decimals: z.number(),
   tags: z.array(z.string()).optional(),
   logoURI: z.string().optional(),
