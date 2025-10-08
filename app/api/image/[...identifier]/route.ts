@@ -226,7 +226,6 @@ export async function GET(
 		}
 
 		// Return the actual image with appropriate headers
-		// @ts-expect-error Types
 		return new NextResponse(imageData.data, {
 			status: 200,
 			headers: {
