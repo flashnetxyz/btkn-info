@@ -15,8 +15,7 @@ export default function TokenTable({ tokens }: { tokens: Token[] }) {
 			(t) =>
 				t.name.toLowerCase().includes(q) ||
 				t.symbol.toLowerCase().includes(q) ||
-				t.identifier?.toLowerCase().includes(q) ||
-				t.address?.toLowerCase().includes(q),
+				t.address.toLowerCase().includes(q),
 		);
 	}, [tokens, query]);
 
@@ -86,24 +85,14 @@ export default function TokenTable({ tokens }: { tokens: Token[] }) {
 										{token.tags?.join(", ") || "-"}
 									</td>
 									<td className="p-4">
-										{token.identifier ===
-											"020202020202020202020202020202020202020202020202020202020202020202" &&
-										!token.address ? (
-											<code className="text-xs text-[#8A8A8A] break-all font-mono">
-												N/A
-											</code>
-										) : (
-											<code className="text-xs text-[#8A8A8A] break-all font-mono">
-												{token.address
-													? token.address.length > 24
-														? `${token.address.slice(
-																0,
-																12,
-															)}...${token.address.slice(-12)}`
-														: token.address
-													: "-"}
-											</code>
-										)}
+										<code className="text-xs text-[#8A8A8A] break-all font-mono">
+											{token.address.length > 24
+												? `${token.address.slice(
+														0,
+														12,
+													)}...${token.address.slice(-12)}`
+												: token.address}
+										</code>
 									</td>
 								</tr>
 							))}
