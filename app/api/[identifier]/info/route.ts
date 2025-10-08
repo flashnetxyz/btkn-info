@@ -26,8 +26,6 @@ type TokenList = z.infer<typeof TokenListSchema>;
 
 // Cache for fetched token lists to avoid repeated requests
 const tokenListCache = new Map<string, TokenList | null>();
-// Cache for fetched images
-const imageCache = new Map<string, { data: Buffer; contentType: string }>();
 
 async function fetchTokenList(url: string): Promise<TokenList | null> {
 	// Check cache first
@@ -59,10 +57,10 @@ async function fetchTokenList(url: string): Promise<TokenList | null> {
 	}
 }
 
-async function findTokenImageUrl(
+async function findTokenInfo(
 	searchValue: string,
 	visitedUrls: Set<string> = new Set(),
-): Promise<string | null> {
+): Promise<Token | null> {
 	const normalizedSearch = searchValue.toLowerCase().trim();
 
 	// Start with the configured token lists
@@ -89,8 +87,8 @@ async function findTokenImageUrl(
 			return addressMatch || identifierMatch || symbolMatch;
 		});
 
-		if (token?.logoURI) {
-			return token.logoURI;
+		if (token) {
+			return token;
 		}
 
 		// If this token list contains references to other lists, search them recursively
@@ -99,13 +97,13 @@ async function findTokenImageUrl(
 				if (visitedUrls.has(nestedUrl)) {
 					return null;
 				}
-				return findTokenImageUrl(normalizedSearch, visitedUrls);
+				return findTokenInfo(normalizedSearch, visitedUrls);
 			});
 
 			const nestedResults = await Promise.all(nestedSearches);
-			const foundImage = nestedResults.find((img) => img !== null);
-			if (foundImage) {
-				return foundImage;
+			const foundToken = nestedResults.find((token) => token !== null);
+			if (foundToken) {
+				return foundToken;
 			}
 		}
 
@@ -113,72 +111,14 @@ async function findTokenImageUrl(
 	});
 
 	const results = await Promise.all(searchPromises);
-	return results.find((img) => img !== null) || null;
-}
-
-async function fetchImage(
-	imageUrl: string,
-): Promise<{ data: Buffer; contentType: string } | null> {
-	// Check cache first
-	if (imageCache.has(imageUrl)) {
-		return imageCache.get(imageUrl) || null;
-	}
-
-	try {
-		const response = await fetch(imageUrl, {
-			next: { revalidate: 86400 }, // Cache images for 24 hours
-		});
-
-		if (!response.ok) {
-			console.error(
-				`Failed to fetch image from ${imageUrl}: ${response.status}`,
-			);
-			return null;
-		}
-
-		const arrayBuffer = await response.arrayBuffer();
-		const buffer = Buffer.from(arrayBuffer);
-
-		// Get content type from response or try to detect it
-		let contentType = response.headers.get("content-type") || "image/png";
-
-		// Validate it's an image content type
-		if (!contentType.startsWith("image/")) {
-			// Try to detect from the URL extension
-			if (imageUrl.endsWith(".svg")) contentType = "image/svg+xml";
-			else if (imageUrl.endsWith(".jpg") || imageUrl.endsWith(".jpeg"))
-				contentType = "image/jpeg";
-			else if (imageUrl.endsWith(".gif")) contentType = "image/gif";
-			else if (imageUrl.endsWith(".webp")) contentType = "image/webp";
-			else contentType = "image/png"; // Default to PNG
-		}
-
-		const imageData = { data: buffer, contentType };
-
-		// Cache the image data
-		imageCache.set(imageUrl, imageData);
-
-		return imageData;
-	} catch (error) {
-		console.error(`Error fetching image from ${imageUrl}:`, error);
-		return null;
-	}
+	return results.find((token) => token !== null) || null;
 }
 
 export async function GET(
 	_request: Request,
-	{ params }: { params: Promise<{ identifier: string[] }> },
+	{ params }: { params: Promise<{ identifier: string }> },
 ) {
-	// Extract the identifier from the URL path
-	// The identifier array will contain the path segments
-	// e.g., /api/image/abc123.png -> ['abc123.png']
-	// e.g., /api/image/btkn1xyz/image.png -> ['btkn1xyz', 'image.png']
-
-	const { identifier: identifierSegments } = await params;
-	const fullPath = identifierSegments.join("/");
-
-	// Remove any file extension
-	const identifier = fullPath.replace(/\.(png|jpg|jpeg|gif|svg|webp)$/i, "");
+	const { identifier } = await params;
 
 	if (!identifier) {
 		// Return a 400 error as an image
@@ -194,10 +134,9 @@ export async function GET(
 	}
 
 	try {
-		// Find the token image URL
-		const imageUrl = await findTokenImageUrl(identifier);
+		const tokenInfo = await findTokenInfo(identifier);
 
-		if (!imageUrl) {
+		if (!tokenInfo) {
 			return new NextResponse(null, {
 				status: 404,
 				headers: {
@@ -209,28 +148,10 @@ export async function GET(
 			});
 		}
 
-		// Fetch the actual image
-		const imageData = await fetchImage(imageUrl);
-
-		if (!imageData) {
-			// If we found the URL but couldn't fetch the image, return placeholder
-			return new NextResponse(null, {
-				status: 502,
-				headers: {
-					"Cache-Control": "public, max-age=60", // Short cache for errors
-					"Access-Control-Allow-Origin": "*",
-					"Access-Control-Allow-Methods": "GET, OPTIONS",
-					"Access-Control-Allow-Headers": "Content-Type",
-				},
-			});
-		}
-
-		// Return the actual image with appropriate headers
-		// @ts-expect-error Types
-		return new NextResponse(imageData.data, {
+		return new NextResponse(JSON.stringify(tokenInfo), {
 			status: 200,
 			headers: {
-				"Content-Type": imageData.contentType,
+				"Content-Type": "application/json",
 				"Cache-Control": "public, max-age=86400, stale-while-revalidate=43200", // 24h cache, 12h stale
 				"X-Token-Identifier": identifier,
 				"Access-Control-Allow-Origin": "*",
@@ -239,9 +160,8 @@ export async function GET(
 			},
 		});
 	} catch (error) {
-		console.error("Error serving token image:", error);
+		console.error("Error serving token info:", error);
 
-		// Return error as placeholder image
 		return new NextResponse(null, {
 			status: 500,
 			headers: {
