@@ -10,5 +10,9 @@
 	"https://sparksat.app/sparksat.json": {
 		"name": "Sparksat Token List",
 		"homepage": "https://sparksat.app"
+	},
+	"https://legacyspark.xyz/btnflist.json": {
+		"name": "LegacySpark BTNF List",
+		"homepage": "https://legacyspark.xyz"
 	}
 }
