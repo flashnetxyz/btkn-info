@@ -10,5 +10,10 @@
 	"https://sparksat.app/sparksat.json": {
 		"name": "Sparksat Token List",
 		"homepage": "https://sparksat.app"
+	},
+	"https://sparkmoneybot.com/sparkmoneybot.json": {
+		"name": "SparkMoneyBot Token List",
+		"timestamp":
+		"homepage": "https://sparkmoneybot.com"
 	}
 }
