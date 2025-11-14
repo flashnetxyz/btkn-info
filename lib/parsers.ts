@@ -1,4 +1,5 @@
 import { z } from "zod";
+import tokenListsConfig from "@/lib/token-lists.json";
 
 export type Address = `btkn1${string}`;
 
@@ -26,14 +27,20 @@ export type Token = z.infer<typeof TokenSchema>;
 export type TokenList = z.infer<typeof TokenListSchema>;
 
 export async function getTokenLists() {
-	const tokenLists = await fetch(
-		`https://raw.githubusercontent.com/flashnetxyz/btkn-info/refs/heads/master/lib/token-lists.json?seed=${Math.random()
-			.toString(36)
-			.substring(7)}`,
-	).then(
-		(res) =>
-			res.json() as Promise<Record<string, { name: string; homepage: string }>>,
-	);
+	let tokenLists: Record<string, { name: string; homepage: string }>;
+	try {
+		tokenLists = await fetch(
+			`https://raw.githubusercontent.com/flashnetxyz/btkn-info/refs/heads/master/lib/token-lists.json?seed=${Math.random()
+				.toString(36)
+				.substring(7)}`,
+		).then((res) => res.json());
+	} catch {
+		// Fallback to local registry during build or network/JSON failures
+		tokenLists = tokenListsConfig as Record<
+			string,
+			{ name: string; homepage: string }
+		>;
+	}
 
 	const tokenListsWithTokens = await Promise.all(
 		Object.entries(tokenLists).map(async ([url, { name, homepage }]) => {
@@ -56,14 +63,19 @@ export async function getTokenList(url: string) {
 }
 
 export async function getTokenListHomepage(url: string) {
-	const tokenLists = await fetch(
-		`https://raw.githubusercontent.com/flashnetxyz/btkn-info/refs/heads/master/lib/token-lists.json?seed=${Math.random()
-			.toString(36)
-			.substring(7)}`,
-	).then(
-		(res) =>
-			res.json() as Promise<Record<string, { name: string; homepage: string }>>,
-	);
+	let tokenLists: Record<string, { name: string; homepage: string }>;
+	try {
+		tokenLists = await fetch(
+			`https://raw.githubusercontent.com/flashnetxyz/btkn-info/refs/heads/master/lib/token-lists.json?seed=${Math.random()
+				.toString(36)
+				.substring(7)}`,
+		).then((res) => res.json());
+	} catch {
+		tokenLists = tokenListsConfig as Record<
+			string,
+			{ name: string; homepage: string }
+		>;
+	}
 
 	return tokenLists[url]?.homepage;
 }
