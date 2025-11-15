@@ -14,5 +14,9 @@
 	"https://bitbit.bot/bitbit.json": {
 		"name": "BitBit Token List",
 		"homepage": "https://bitbit.bot"
-	}
+	},
+  "https://sparkmoneybot.com/sparkmoneybot.json": {
+    "name": "SparkMoneyBot Token List",
+    "homepage": "https://sparkmoneybot.com"
+  }
 }
