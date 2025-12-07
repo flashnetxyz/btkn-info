@@ -1,16 +1,20 @@
 {
-  "https://flashnet.xyz/api/tokenlist": {
-    "name": "Flashnet Token List",
-    "homepage": "https://flashnet.xyz"
-  },
-  "https://deezy.io/btkn-tokens.json": {
-    "name": "Deezy Token List",
-    "homepage": "https://deezy.io"
-  },
-  "https://sparksat.app/sparksat.json": {
-    "name": "Sparksat Token List",
-    "homepage": "https://sparksat.app"
-  },
+	"https://flashnet.xyz/api/tokenlist": {
+		"name": "Flashnet Token List",
+		"homepage": "https://flashnet.xyz"
+	},
+	"https://deezy.io/btkn-tokens.json": {
+		"name": "Deezy Token List",
+		"homepage": "https://deezy.io"
+	},
+	"https://sparksat.app/sparksat.json": {
+		"name": "Sparksat Token List",
+		"homepage": "https://sparksat.app"
+	},
+	"https://bitbit.bot/bitbit.json": {
+		"name": "BitBit Token List",
+		"homepage": "https://bitbit.bot"
+	},
   "https://sparkmoneybot.com/sparkmoneybot.json": {
     "name": "SparkMoneyBot Token List",
     "homepage": "https://sparkmoneybot.com"
