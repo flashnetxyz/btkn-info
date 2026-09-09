@@ -14,5 +14,9 @@
   "https://sparkmoneybot.com/sparkmoneybot.json": {
     "name": "SparkMoneyBot Token List",
     "homepage": "https://sparkmoneybot.com"
+  },
+  "https://depix.info/tokenlist.json": {
+    "name": "DePix Token List",
+    "homepage": "https://depix.info"
   }
 }
