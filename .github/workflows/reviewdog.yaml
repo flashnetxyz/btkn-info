@@ -7,14 +7,14 @@ on:
 jobs:
   biome:
     name: Biome
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
         contents: read
         pull-requests: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - uses: mongolyy/reviewdog-action-biome@v2
+        uses: actions/checkout@v7.0.1
+      - uses: mongolyy/reviewdog-action-biome@v2.13.0
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
