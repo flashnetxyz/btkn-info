@@ -7,7 +7,7 @@ on:
 jobs:
   biome:
     name: Biome
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-latest
     permissions:
         contents: read
         pull-requests: write
