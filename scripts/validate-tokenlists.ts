@@ -81,7 +81,7 @@ async function main() {
 
 	const ajv = new Ajv2020({ allErrors: true, strict: false });
 	addFormats(ajv);
-	const validate = ajv.compile<TokenList>(schema as any);
+	const validate = ajv.compile<TokenList>(schema);
 
 	const failures: Array<{ url: string; errors: string[] }> = [];
 
